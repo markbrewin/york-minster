@@ -1,0 +1,8 @@
+<linker>
+	<assembly fullname="AndroidWikitudeUnityPlugin" ignoreIfMissing="1">
+		<type fullname="Wikitude.*" preserve="all" />
+	</assembly>
+	<assembly fullname="iOSWikitudeUnityPlugin" ignoreIfMissing="1">
+		<type fullname="Wikitude.*" preserve="all" />
+	</assembly>
+</linker>

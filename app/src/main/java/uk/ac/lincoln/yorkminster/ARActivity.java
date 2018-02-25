@@ -43,13 +43,19 @@ public class ARActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         architectView.onPostCreate();
 
+        Log.v(TAG, "Post create called.");
+
         try {
+            Log.v(TAG, "Trying.");
             this.architectView.load( "minster.html" );
+            Log.v(TAG, "Done trying.");
         } catch (IOException e) {
+            Log.v(TAG, "Error.");
             CharSequence arError = "Error loading AR experience.";
             Toast.makeText(this, arError, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Exception while loading arExperience.", e);
         }
+        Log.v(TAG, "Post create finished.");
     }
 
     @Override

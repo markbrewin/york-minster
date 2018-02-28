@@ -1,101 +1,68 @@
 package uk.ac.lincoln.yorkminster;
 
-import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.wikitude.architect.ArchitectView;
+import com.wikitude.common.permission.PermissionManager;
+
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
-    private static final int PERMISSION_REQUEST_CAMERA = 0;
-    private static final int PERMISSION_REQUEST_LOCATION = 0;
-    private static final String TAG = ARActivity.class.getSimpleName();
+    private final PermissionManager permissionManager = ArchitectView.getPermissionManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        // Check if the Camera permission has been granted
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is missing and must be requested.
-            requestCameraPermission();
-        }
+    public boolean openAR(View view)
+    {
+        final String[] permissions = permissionUtil.getPermissionsForArFeatures();
 
-        // Check if the Location permission has been granted
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is missing and must be requested.
-            requestLocationPermission();
-        }
+        permissionManager.checkPermissions(MainActivity.this, permissions, PermissionManager.WIKITUDE_PERMISSION_REQUEST, new PermissionManager.PermissionManagerCallback() {
+            @Override
+            public void permissionsGranted(int requestCode) {
+                final Intent intent = new Intent(MainActivity.this, ARActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+
+            @Override
+            public void permissionsDenied(@NonNull String[] deniedPermissions) {
+                Toast.makeText(MainActivity.this, "getString(R.string.permissions_denied)" + Arrays.toString(deniedPermissions), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showPermissionRationale(final int requestCode, @NonNull String[] strings) {
+                final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertBuilder.setCancelable(true);
+                alertBuilder.setTitle("R.string.permission_rationale_title");
+                alertBuilder.setMessage("getString(R.string.permission_rationale_text)" + Arrays.toString(permissions));
+                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        permissionManager.positiveRationaleResult(requestCode, permissions);
+                    }
+                });
+
+                AlertDialog alert = alertBuilder.create();
+                alert.show();
+            }
+        });
+        return false;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CAMERA) {
-            // Request for camera permission.
-            if (!(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Permission request was denied.
-                CharSequence error = "Access to the camera is required.";
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-                Log.v(TAG, "Permission request was denied.");
-            }
-        }
-
-        if (requestCode == PERMISSION_REQUEST_LOCATION) {
-            // Request for location permission.
-            if (!(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Permission request was denied.
-                CharSequence error = "Access to the location is required.";
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-                Log.v(TAG, "Permission request was denied.");
-            }
-        }
-    }
-
-    private void requestCameraPermission() {
-        // Permission has not been granted and must be requested.
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
-            // Request the permission
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSION_REQUEST_CAMERA);
-        } else {
-            // Request the permission. The result will be received in onRequestPermissionResult().
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSION_REQUEST_CAMERA);
-        }
-    }
-
-    private void requestLocationPermission() {
-        // Permission has not been granted and must be requested.
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // Request the permission
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_REQUEST_LOCATION);
-        } else {
-            // Request the permission. The result will be received in onRequestPermissionResult().
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_REQUEST_LOCATION);
-        }
-    }
-
-    public void openAR(View view)
-    {
-        Intent intent = new Intent(MainActivity.this, ARActivity.class);
-        startActivity(intent);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        ArchitectView.getPermissionManager().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
 

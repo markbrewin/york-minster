@@ -1,17 +1,32 @@
 var World = {
     loaded: false,
         
-    init: function init() {
-        console.log("hello2");
-        this.createMenu();
+    init: function initFn() {
+        menu.init();
     },
     
-    createMenu: function createMenu() {
-    },
-    worldLoaded: function worldLoaded() {
+    worldLoaded: function worldLoadedFn() {
         World.loaded = true;
         var e = document.getElementById('loadingMessage');
         e.parentElement.removeChild(e);
     }
 };
+
+var menu = {
+    init: function initFn() {
+        var menuLocation = new AR.RelativeLocation(null, 3, 0, 0);
+        
+        var htmlDrawable = new AR.HtmlDrawable({
+            uri:"menu.html"}, 1, {
+            onLoaded : World.worldLoaded
+        });
+        
+        var menu = new AR.GeoObject(menuLocation, {
+            drawables: {
+                cam : [htmlDrawable]
+            }
+        });
+    }
+}
+
 World.init();

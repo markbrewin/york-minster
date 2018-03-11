@@ -11,3 +11,10 @@
 	opacity: 0.7;
 	display: table;
 }
+
+.test {
+    font-size: large;
+    background: blue;
+    width: 200px;
+    height 100px;
+}

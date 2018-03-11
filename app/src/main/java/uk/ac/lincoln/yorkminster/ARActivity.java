@@ -62,7 +62,7 @@ public class ARActivity extends AppCompatActivity implements LocationListener{
         architectView.onPostCreate();
 
         try {
-            this.architectView.load( "minster.html" );
+            this.architectView.load( "index.html" );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,10 +87,10 @@ public class ARActivity extends AppCompatActivity implements LocationListener{
     @Override
     public void onLocationChanged(Location location) {
         float accuracy = location.hasAccuracy() ? location.getAccuracy() : 1000;
-        if (location.hasAltitude()) {
-            architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), accuracy);
-        } else {
-            architectView.setLocation(location.getLatitude(), location.getLongitude(), accuracy);
+            if (location.hasAltitude()) {
+                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), accuracy);
+            } else {
+                architectView.setLocation(location.getLatitude(), location.getLongitude(), accuracy);
         }
     }
 

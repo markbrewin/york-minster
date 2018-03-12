@@ -1,5 +1,6 @@
 package uk.ac.lincoln.yorkminster;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.common.permission.PermissionManager;
 
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         permissionManager.checkPermissions(MainActivity.this, permissions, PermissionManager.WIKITUDE_PERMISSION_REQUEST, new PermissionManager.PermissionManagerCallback() {
             @Override
             public void permissionsGranted(int requestCode) {
+                checkPlayServices();
+
                 final Intent intent = new Intent(MainActivity.this, ARActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -57,6 +62,21 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
             }
         });
+
+        return false;
+    }
+
+    public boolean checkPlayServices() {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(this);
+
+        if(status != ConnectionResult.SUCCESS) {
+            if(googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(this, status, 2404).show();
+            }
+            return false;
+        }
         return false;
     }
 

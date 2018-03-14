@@ -2,7 +2,7 @@ var World = {
     loaded: false,
         
     init: function initFn() {
-      objectTest();
+        this.objectTest();
     },
   
     objectTest : function objectTestFn(){
@@ -14,7 +14,7 @@ var World = {
                 y: 1,
                 z: 1
             },
-            onLoaded: worldLoaded
+            onLoaded: this.worldLoaded
         });
         
         var obj = new AR.GeoObject(objLocation, {

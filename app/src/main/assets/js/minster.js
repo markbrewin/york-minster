@@ -16,13 +16,13 @@ var World = {
     },
   
     objectTest : function objectTestFn(lat, long){
-        var objLocation = new AR.GeoLocation(53.220849, -0.539652, 1);
+        var objLocation = new AR.GeoLocation(lat + 0.0005, long + 0.0001, 1);
 
         var chest = new AR.Model("assets/models/chest.wt3", {
             scale: {
-                x: 0.1,
-                y: 0.1,
-                z: 0.1
+                x: 1,
+                y: 1,
+                z: 1
             },
             onLoaded: this.worldLoaded
         });

@@ -10,21 +10,31 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <Button
+        <ImageView
             android:id="@+id/button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:elevation="1dp"
-            android:background="#ff69b4"
+            android:background="@color/colorPrimary"
             android:onClick="openAR"
-            android:text="York Minster \n AR Experience"
-            android:textColor="#ffffff"
-            android:textSize="50sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/bree_serif"
-            android:textAlignment="center"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="31dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:elevation="2dp"
+            android:fontFamily="@font/bree_serif"
+            android:text="York Minster"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +45,7 @@
             android:elevation="2dp"
             android:fontFamily="@font/bree_serif"
             android:text="Tap to Continue"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorAccent"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

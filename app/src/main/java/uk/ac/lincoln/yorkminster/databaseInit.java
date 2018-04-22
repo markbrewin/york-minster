@@ -25,9 +25,9 @@ public class databaseInit {
             chestEntity chest = new chestEntity(
                     "Nave",
                     "Stand at the west doors and look down the Nave. It was built 1291-1360, so it’s more than 600 years old. The statue behind you is St Peter, the patron saint of York Minster. The “Keys of Heaven” are his symbol. Look out for red shields with crossed keys around the Minster. The statue you found is St Peter. He is the patron saint of York Minster. The full legal title of York Minster is “The Cathedral and Metropolitical Church of Saint Peter in York.” The Minster has been dedicated to St Peter ever since the first Minster was built in 627AD. His feast day is the 29th June. The statue itself  dates from 1906.",
-                    53.176962,
-                    -1.177746,
-                    0
+                    53.226762,
+                    -0.547793,
+                    6
             );
             addChest(db, chest);
             chest = new chestEntity(

@@ -30,14 +30,6 @@ public class databaseInit {
                     6
             );
             addChest(db, chest);
-            chest = new chestEntity(
-                    "test",
-                    "test",
-                    0.1,
-                    0.5,
-                    0.2
-            );
-            addChest(db, chest);
         }
 
         @Override

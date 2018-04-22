@@ -25,18 +25,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ARActivity extends AppCompatActivity {
     //Creates the AR environment.
     protected ArchitectView architectView;
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private static LocationRequest mLocationRequest = new LocationRequest();
+    private static LocationRequest mLocationRequest = LocationRequest.create();
     private LocationCallback mLocationCallback;
     private Location mLastLocation;
+
+    private dbChest chestDB = new dbChest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +138,20 @@ public class ARActivity extends AppCompatActivity {
             this.architectView.load( "index.html" );
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try {
+            ResultSet chests = chestDB.displayInfo();
+
+            while(chests.next()){
+                double cLat = chests.getDouble("cLat");
+                double cLong = chests.getDouble("cLong");
+                double cAlt = chests.getDouble("cAlt");
+
+                Log.i("chests",cLat + "\t" + cLong + "\t" + cAlt);
+            }
+        } catch(SQLException | ClassNotFoundException e) {
+            Log.i("chests", e.getMessage());
         }
     }
 

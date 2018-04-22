@@ -29,8 +29,9 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
+
+import io.reactivex.Flowable;
 
 public class ARActivity extends AppCompatActivity {
     //Creates the AR environment.
@@ -41,11 +42,14 @@ public class ARActivity extends AppCompatActivity {
     private LocationCallback mLocationCallback;
     private Location mLastLocation;
 
-    private dbChest chestDB = new dbChest();
+    private database appDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        appDb = database.getAppDatabase(this);
+        databaseInit.populate(appDb);
 
         WebView.setWebContentsDebuggingEnabled(true);
 
@@ -140,18 +144,11 @@ public class ARActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        try {
-            ResultSet chests = chestDB.displayInfo();
+        List<chestEntity> chests = appDb.chestDao().getChests();
 
-            while(chests.next()){
-                double cLat = chests.getDouble("cLat");
-                double cLong = chests.getDouble("cLong");
-                double cAlt = chests.getDouble("cAlt");
-
-                Log.i("chests",cLat + "\t" + cLong + "\t" + cAlt);
-            }
-        } catch(SQLException | ClassNotFoundException e) {
-            Log.i("chests", e.getMessage());
+        for (chestEntity chest:chests) {
+            this.architectView.callJavascript("addChest(" + chest.getCLat() + "," + chest.getCLong() + "," + chest.getCAlt() + ");");
+            Log.i("chests",chest.getCLat() + "\t" + chest.getCLong() + "\t" + chest.getCAlt());
         }
     }
 

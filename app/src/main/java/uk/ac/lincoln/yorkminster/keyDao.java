@@ -8,13 +8,13 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface chestDao {
-    @Query("SELECt * FROM chests")
-    List<chestEntity> getChests();
+public interface keyDao {
+    @Query("SELECt * FROM keys")
+    List<keyEntity> getKeys();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertChest(chestEntity chest);
+    void insertKey(keyEntity key);
 
-    @Query("DELETE FROM chests")
-    void deleteAllChests();
+    @Query("DELETE FROM keys")
+    void deleteAllKeys();
 }

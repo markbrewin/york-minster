@@ -5,12 +5,12 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import io.reactivex.Flowable;
+import java.util.List;
 
 @Dao
 public interface chestDao {
     @Query("SELECt * FROM chests")
-    Flowable<chestEntity> getChests();
+    List<chestEntity> getChests();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertChest(chestEntity chest);

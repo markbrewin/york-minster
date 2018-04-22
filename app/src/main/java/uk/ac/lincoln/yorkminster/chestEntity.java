@@ -2,13 +2,16 @@ package uk.ac.lincoln.yorkminster;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+
+import java.util.UUID;
 
 @Entity(tableName = "chests")
 public class chestEntity {
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "cID")
     private int cID;
 
@@ -27,36 +30,59 @@ public class chestEntity {
     @ColumnInfo(name = "cAlt")
     private double cAlt;
 
-    public chestEntity(int id, String title, String info, double lat, double lon, double alt){
-        this.cID = id;
-        this.cTitle = title;
-        this.cInfo = info;
-        this.cLat = lat;
-        this.cLong = lon;
-        this.cAlt = alt;
+    public chestEntity(String cTitle, String cInfo, double cLat, double cLong, double cAlt){
+        this.cTitle = cTitle;
+        this.cInfo = cInfo;
+        this.cLat = cLat;
+        this.cLong = cLong;
+        this.cAlt = cAlt;
     }
 
-    public int getcID(){
+    public int getCID(){
         return cID;
     }
 
-    public String getcTitle(){
+    public void setCID(int cID){
+        this.cID = cID;
+    }
+
+    public String getCTitle(){
         return cTitle;
     }
 
-    public String getcInfo(){
+    public void setCTitle(String cTitle){
+        this.cTitle = cTitle;
+    }
+
+    public String getCInfo(){
         return cInfo;
     }
 
-    public double getcLat(){
+    public void setCInfo(String cInfo){
+        this.cInfo = cInfo;
+    }
+
+    public double getCLat(){
         return cLat;
     }
 
-    public double getcLong(){
+    public void setCLat(Double cLat){
+        this.cLat = cLat;
+    }
+
+    public double getCLong(){
         return cLong;
     }
 
-    public double getcAlt(){
+    public void setCLong(Double cLong){
+        this.cLong = cLong;
+    }
+
+    public double getCAlt(){
         return cAlt;
+    }
+
+    public void setCAlt(Double cAlt){
+        this.cAlt = cAlt;
     }
 }

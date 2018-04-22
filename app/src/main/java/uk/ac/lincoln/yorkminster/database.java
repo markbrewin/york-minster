@@ -7,20 +7,21 @@ import android.content.Context;
 
 @Database(entities = {chestEntity.class}, version = 1)
 public abstract class database extends RoomDatabase {
+
     private static volatile database INSTANCE;
 
     public abstract chestDao chestDao();
 
-    public static database getInstance(Context context){
+    public static database getAppDatabase(Context context){
         if (INSTANCE == null){
-            synchronized (database.class){
-                if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            database.class,"appDatabase.db")
-                            .build();
-                }
-            }
+            INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),database.class)
+                    .allowMainThreadQueries()
+                    .build();
         }
         return INSTANCE;
+    }
+
+    public static void destroyInstance() {
+        INSTANCE = null;
     }
 }

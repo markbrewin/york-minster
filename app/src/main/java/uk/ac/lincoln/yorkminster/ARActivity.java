@@ -147,6 +147,7 @@ public class ARActivity extends AppCompatActivity {
         List<chestEntity> chests = appDb.chestDao().getChests();
 
         for (chestEntity chest:chests) {
+            this.architectView.callJavascript("addChest(" + chest.getCLat() + "," + chest.getCLong() + "," + chest.getCAlt() + ");");
             Log.i("chests",chest.getCLat() + "\t" + chest.getCLong() + "\t" + chest.getCAlt());
         }
     }

@@ -47,7 +47,6 @@
             android:text="Tap to Continue"
             android:textColor="@color/colorAccent"
             android:textSize="30sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

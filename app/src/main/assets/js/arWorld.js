@@ -1,3 +1,8 @@
+function chest(lat, long){
+    this.lat = lat;
+    this.long = long;
+}
+
 var World = {
     loaded: false,
     
@@ -5,6 +10,8 @@ var World = {
 
     chestModel: null,
     curChest: null,
+    keyModel: null,
+    keyChest: null,
     
     plyLat: null,
     plyLong: null,
@@ -19,25 +26,48 @@ var World = {
                 z: 0.05
             }
         });
+        World.keyModel = new AR.Model("assets/models/key.wt3", {
+            scale: {
+                x: 1,
+                y: 1,
+                z: 1
+            }
+        });
         
-        World.indicatorImage = new AR.ImageResource("assets/indi.png");
+        World.indicatorChestImg = new AR.ImageResource("assets/indiChest.png");     
+        World.inidcatorChestDraw = new AR.ImageDrawable(World.indicatorImage, 0.1, {
+            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
+        }); 
         
-        World.inidcatorDrawable = new AR.ImageDrawable(World.indicatorImage, 0.1, {
+        World.indicatorKeyImg = new AR.ImageResource("assets/indiKey.png");     
+        World.inidcatorKeyDraw = new AR.ImageDrawable(World.indicatorImage, 0.1, {
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
         }); 
         
         AR.context.onLocationChanged = function(latitude, longitude, altitude, accuracy){
+            World.showToast("Location update.");
+            
             World.plyLat = latitude;
             World.plyLong = longitude;
             
-            console.log("update");
-        
-            document.getElementById("loadingMessage").innerHTML = World.curChest.locations[0].latitude + "," + World.curChest.locations[0].longitude + "<br>" + World.plyLat + "," + World.plyLong;
+            document.getElementById("loadingMessage").innerHTML = World.chestLocationList[0].lat + "," + World.chestLocationList[0].long + "<br>" + World.plyLat + "," + World.plyLong;
+                
+            World.chestLocationUpdate();
         };
     },
     
-    addChest: function addChestFn(lat, long, alt) {
-        //World.chestList.push(new chest(lat, long, alt));
+    showToast: function showToast(msg){
+        console.log(msg);
+        'use strict';
+        
+        var snackbarContainer = document.querySelector('#toast');
+        
+        var data = {message: "WIKITUDEWIKITUDE - " + msg};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    },
+    
+    addChest: function addChestFn(lat, long) {
+        World.chestLocationList.push(new chest(lat, long));
     },
     
     loadChest: function loadChestFn(){
@@ -46,18 +76,37 @@ var World = {
         World.curChest = new AR.GeoObject(location, {
                 drawables: {
                 cam: [World.chestModel],
-                indicator: [World.inidcatorDrawable]
+                indicator: [World.inidcatorChestDraw]
             } 
         });
         
-        World.rotateChest();
+        //World.rotateChest();
     },
     
     rotateChest: function rotateChestFn(){
-        console.log("rotate");
-
         World.curChest.drawables.cam[0].rotate.heading += 1;
         setTimeout(World.rotateChest(), 5000);
+    },
+    
+    chestLocationUpdate: function chestLocationUpdateFn(){
+        for(i = 0; i < World.chestLocationList.length; i++){
+            if((Math.abs(World.plyLat - World.chestLocationList[i].lat) <= 0.000005) && (Math.abs(World.plyLong - World.chestLocationList[i].long) <= 0.000005)){
+                if(World.curChest == null){
+                    World.loadChest();
+                }
+                
+                World.showToast("Close to chest.");
+                
+                break;
+            }else{
+                World.showToast("Far away from chest.");
+                if(World.curChest != null){
+                    World.showToast("Destroyed chest.");
+                    World.curChest.destroy();
+                    World.curChest = null;
+                }
+            }
+        }
     },
     
     worldLoaded: function worldLoadedFn() {

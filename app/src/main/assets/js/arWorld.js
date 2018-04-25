@@ -37,13 +37,14 @@ var World = {
             },
             onClick: function(){
                 if(World.keysFound.includes(World.curChestID)){
-                    openCard("Chest Found!", "Well done! You opened the chest and gained its treasure!");
+                    openInfoCard("Chest Found!", "Well done! You opened the chest and gained its treasure!");
                     World.chestsFound.push(World.curChestID);
                 } else {
-                    openCard("Chest Found!", "Well done! You found the chest but you need its key first!");
+                    openInfoCard("Chest Found!", "Well done! You found the chest but you need its key first!");
                 }
             }
         });
+        
         World.keyModel = new AR.Model("assets/models/padlock.wt3", {
             scale: {
                 x: 0.1,
@@ -51,7 +52,7 @@ var World = {
                 z: 0.1
             },
             onClick: function(){
-                openCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!")
+                openInfoCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!")
                 World.keysFound.push(World.curKeyID);
                 
                 showToast("Destroyed key.");
@@ -193,17 +194,21 @@ function showToast(msg){
     snackbarContainer.MaterialSnackbar.showSnackbar(data);
 }
 
-function openCard(title, info) {
+function openInfoCard(title, info) {
     document.getElementById('infoCard').style.display = "inherit";
     document.getElementById('infoCardTitle').innerHTML = title;
     document.getElementById('infoCardInfo').innerHTML = info;
 }
 
-function openProgress() {
-    document.getElementById('infoCard').style.display = "inherit";
-    document.getElementById('infoCardInfo').innerHTML = "You currently have found the following chests: " + World.chestsFound;
+function openProgCard() {
+    document.getElementById('progressCard').style.display = "inherit";
+    document.getElementById('progressCardInfo').innerHTML = "You currently have found the following chests: " + World.chestsFound;
 }
 
-function closeCard() {
+function closeInfoCard() {
     document.getElementById('infoCard').style.display = "none";
+}
+
+function closeProgCard() {
+    document.getElementById('progressCard').style.display = "none";
 }

@@ -167,6 +167,13 @@ var World = {
         }
     },
     
+    setLocation: function setLocationFn() {
+        World.keyLocationList[0].lat = World.plyLat;
+        World.keyLocationList[0].long = World.plyLong;
+        World.chestLocationList[0].lat = World.plyLat;
+        World.chestLocationList[0].long = World.plyLong;
+    },
+    
     worldLoaded: function worldLoadedFn() {
         World.loaded = true;
         var e = document.getElementById('loadingMessage');

@@ -199,6 +199,11 @@ function openCard(title, info) {
     document.getElementById('infoCardInfo').innerHTML = info;
 }
 
+function openProgress() {
+    document.getElementById('infoCard').style.display = "inherit";
+    document.getElementById('infoCardInfo').innerHTML = "You currently have found the following chests: " + World.chestsFound;
+}
+
 function closeCard() {
     document.getElementById('infoCard').style.display = "none";
 }

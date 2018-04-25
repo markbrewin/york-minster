@@ -2,6 +2,7 @@ package uk.ac.lincoln.yorkminster;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -27,15 +28,20 @@ public class chestEntity {
     @ColumnInfo(name = "cLong")
     private double cLong;
 
-    @ColumnInfo(name = "cAlt")
-    private double cAlt;
-
-    public chestEntity(String cTitle, String cInfo, double cLat, double cLong, double cAlt){
+    @Ignore
+    public chestEntity(int cID, String cTitle, String cInfo, double cLat, double cLong){
+        this.cID = cID;
         this.cTitle = cTitle;
         this.cInfo = cInfo;
         this.cLat = cLat;
         this.cLong = cLong;
-        this.cAlt = cAlt;
+    }
+
+    public chestEntity(String cTitle, String cInfo, double cLat, double cLong){
+        this.cTitle = cTitle;
+        this.cInfo = cInfo;
+        this.cLat = cLat;
+        this.cLong = cLong;
     }
 
     public int getCID(){
@@ -76,13 +82,5 @@ public class chestEntity {
 
     public void setCLong(Double cLong){
         this.cLong = cLong;
-    }
-
-    public double getCAlt(){
-        return cAlt;
-    }
-
-    public void setCAlt(Double cAlt){
-        this.cAlt = cAlt;
     }
 }

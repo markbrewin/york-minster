@@ -2,6 +2,7 @@ package uk.ac.lincoln.yorkminster;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -21,21 +22,25 @@ public class keyEntity {
     @ColumnInfo(name = "kLong")
     private double kLong;
 
-    @ColumnInfo(name = "kAlt")
-    private double kAlt;
-
-    public keyEntity(String kTitle, double kLat, double kLong, double kAlt){
+    @Ignore
+    public keyEntity(int kID, String kTitle, double kLat, double kLong){
+        this.kID = kID;
         this.kTitle = kTitle;
         this.kLat = kLat;
         this.kLong = kLong;
-        this.kAlt = kAlt;
+    }
+
+    public keyEntity(String kTitle, double kLat, double kLong){
+        this.kTitle = kTitle;
+        this.kLat = kLat;
+        this.kLong = kLong;
     }
 
     public int getKID(){
         return kID;
     }
 
-    public void setKID(int cID){
+    public void setKID(int kID){
         this.kID = kID;
     }
 
@@ -61,13 +66,5 @@ public class keyEntity {
 
     public void setKLong(Double kLong){
         this.kLong = kLong;
-    }
-
-    public double getKAlt(){
-        return kAlt;
-    }
-
-    public void setKAlt(Double kAlt){
-        this.kAlt = kAlt;
     }
 }

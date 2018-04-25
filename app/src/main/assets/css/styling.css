@@ -15,3 +15,24 @@ body {
 	opacity: 0.7;
 	display: table;
 }
+
+#infoCard.mdl-card {
+    width: 90%;
+    height: 320px;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+}
+
+#infoCard > .mdl-card__title {
+    color: #fff;
+    height: 170px;
+    background:
+    url('../assets/dog.png') bottom right 15% no-repeat #46B6AC;
+}
+
+#infoCard > .mdl-card__actions {
+    position: absolute;
+    height: 50px;
+    bottom: 0;
+}

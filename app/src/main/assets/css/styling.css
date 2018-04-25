@@ -35,6 +35,7 @@ body {
     position: absolute;
     height: 50px;
     bottom: 0;
+    text-align: right;
 }
 
 #progressCard.mdl-card {
@@ -54,4 +55,9 @@ body {
     position: absolute;
     height: 50px;
     bottom: 0;
+    text-align: right;
+}
+
+.mdl-layout__container {
+    width: 10%;
 }

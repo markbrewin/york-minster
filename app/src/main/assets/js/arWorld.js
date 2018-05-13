@@ -1,4 +1,4 @@
-function coord(id, lat, long){
+function treasure(id, lat, long){
     this.id = id;
     this.lat = lat;
     this.long = long;
@@ -6,12 +6,6 @@ function coord(id, lat, long){
 
 var World = {
     loaded: false,
-    
-    chestLocationList: [],
-    keyLocationList: [],
-    
-    keysFound: [],
-    chestsFound: [],
 
     chestModel: null,
     curChest: null,
@@ -24,73 +18,80 @@ var World = {
     plyLong: null,
         
     init: function initFn() {
-        World.chestLocationList = [];
-        World.keyLocationList = [];
-        World.keysFound = [];
-        World.chestsFound = [];
-        
-        World.chestModel = new AR.Model("assets/models/chest.wt3", {
-            scale: {
-                x: 0.05,
-                y: 0.05,
-                z: 0.05
-            },
-            onClick: function(){
-                if(World.keysFound.includes(World.curChestID)){
-                    openInfoCard("Chest Found!", "Well done! You opened the chest and gained its treasure!");
-                    World.chestsFound.push(World.curChestID);
-                } else {
-                    openInfoCard("Chest Found!", "Well done! You found the chest but you need its key first!");
+        if(!World.loaded){
+            World.chestModel = new AR.Model("assets/models/chest.wt3", {
+                scale: {
+                    x: 0.05,
+                    y: 0.05,
+                    z: 0.05
+                },
+                onClick: function(){
+                    if(keysFound.includes(World.curChestID)){
+                        openInfoCard("Chest Found!", "Well done! You opened the chest and gained its treasure!");
+                        chestsFound.push(World.curChestID);
+                        
+                        store.set('chestsFound', getDataString(chestsFound));
+                    } else {
+                        openInfoCard("Chest Found!", "Well done! You found the chest but you need its key first!");
+                    }
                 }
-            }
-        });
+            });
+
+            World.keyModel = new AR.Model("assets/models/padlock.wt3", {
+                scale: {
+                    x: 0.1,
+                    y: 0.1,
+                    z: 0.1
+                },
+                onClick: function(){
+                    openInfoCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!")
+                    keysFound.push(World.curKeyID);
+
+                    showToast("Destroyed key.");
+                    World.curKey.destroy();
+                    World.curKey = null;
+                    World.curKeyID = null;
+                    
+                    store.set('keysFound', getDataString(keysFound));
+                }
+            });
+
+            World.indicatorChestImg = new AR.ImageResource("assets/indiChest.png");     
+            World.inidcatorChestDraw = new AR.ImageDrawable(World.indicatorChestImg, 0.1, {
+                verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
+            }); 
+
+            World.indicatorKeyImg = new AR.ImageResource("assets/indiKey.png");     
+            World.inidcatorKeyDraw = new AR.ImageDrawable(World.indicatorKeyImg, 0.1, {
+                verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
+            }); 
+
+            AR.context.onLocationChanged = function(latitude, longitude, altitude, accuracy){
+                showToast("Location update.");
+
+                World.plyLat = latitude;
+                World.plyLong = longitude;
+
+                document.getElementById("loadingMessage").innerHTML = chestLocations[0].lat + "," + chestLocations[0].long + "<br>" + World.plyLat + "," + World.plyLong;
+
+                World.chestLocationUpdate();
+                World.keyLocationUpdate();
+            };
+        }
         
-        World.keyModel = new AR.Model("assets/models/padlock.wt3", {
-            scale: {
-                x: 0.1,
-                y: 0.1,
-                z: 0.1
-            },
-            onClick: function(){
-                openInfoCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!")
-                World.keysFound.push(World.curKeyID);
-                
-                showToast("Destroyed key.");
-                World.curKey.destroy();
-                World.curKey = null;
-                World.curKeyID = null;
-            }
-        });
-        
-        World.indicatorChestImg = new AR.ImageResource("assets/indiChest.png");     
-        World.inidcatorChestDraw = new AR.ImageDrawable(World.indicatorChestImg, 0.1, {
-            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
-        }); 
-        
-        World.indicatorKeyImg = new AR.ImageResource("assets/indiKey.png");     
-        World.inidcatorKeyDraw = new AR.ImageDrawable(World.indicatorKeyImg, 0.1, {
-            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
-        }); 
-        
-        AR.context.onLocationChanged = function(latitude, longitude, altitude, accuracy){
-            showToast("Location update.");
-            
-            World.plyLat = latitude;
-            World.plyLong = longitude;
-            
-            document.getElementById("loadingMessage").innerHTML = World.chestLocationList[0].lat + "," + World.chestLocationList[0].long + "<br>" + World.plyLat + "," + World.plyLong;
-                
-            World.chestLocationUpdate();
-            World.keyLocationUpdate();
-        };
+        World.worldLoaded();
     },
     
     addChest: function addChestFn(id, lat, long) {
-        World.chestLocationList.push(new coord(id, lat, long));
+        chestLocations.push(new treasure(id, lat, long));
+        
+        store.set('chestLocations', getDataString(chestLocations));
     },
     
     addKey: function addKeyFn(id, lat, long) {
-        World.keyLocationList.push(new coord(id, lat, long));
+        keyLocations.push(new treasure(id, lat, long));
+        
+        store.set('keyLocations', getDataString(keyLocations));
     },
     
     loadChest: function loadChestFn(){
@@ -103,7 +104,7 @@ var World = {
             } 
         });
         
-        //World.rotateChest();
+        //World.rotateChest(); //Broken - freezes app.
     },
     
     loadKey: function loadKeyFn(){
@@ -123,11 +124,11 @@ var World = {
     },
     
     chestLocationUpdate: function chestLocationUpdateFn(){
-        for(var i = 0; i < World.chestLocationList.length; i++){
-            if((Math.abs(World.plyLat - World.chestLocationList[i].lat) <= 0.00005) && (Math.abs(World.plyLong - World.chestLocationList[i].long) <= 0.00005)){
+        for(var i = 0; i < chestLocations.length; i++){
+            if((Math.abs(World.plyLat - chestLocations[i].lat) <= 0.00005) && (Math.abs(World.plyLong - chestLocations[i].long) <= 0.00005)){
                 if(World.curChest == null){
                     World.loadChest();
-                    World.curChestID = World.chestLocationList[i].id;
+                    World.curChestID = chestLocations[i].id;
                 }
                 
                 showToast("Close to chest.");
@@ -146,11 +147,11 @@ var World = {
     },
     
     keyLocationUpdate: function keyLocationUpdateFn(){
-        for(var i = 0; i < World.keyLocationList.length; i++){
-            if((Math.abs(World.plyLat - World.keyLocationList[i].lat) <= 0.00005) && (Math.abs(World.plyLong - World.keyLocationList[i].long) <= 0.00005) && !World.keysFound.includes(World.curChestID)){
+        for(var i = 0; i < keyLocations.length; i++){
+            if((Math.abs(World.plyLat - keyLocations[i].lat) <= 0.00005) && (Math.abs(World.plyLong - keyLocations[i].long) <= 0.00005) && !keysFound.includes(World.curChestID)){
                 if(World.curKey == null){
                     World.loadKey();
-                    World.curKeyID = World.keyLocationList[i].id;
+                    World.curKeyID = keyLocations[i].id;
                 }
                 
                 showToast("Close to key.");
@@ -169,46 +170,18 @@ var World = {
     },
     
     setLocation: function setLocationFn() {
-        World.keyLocationList[0].lat = World.plyLat;
-        World.keyLocationList[0].long = World.plyLong;
-        World.chestLocationList[0].lat = World.plyLat;
-        World.chestLocationList[0].long = World.plyLong;
+        keyLocations[0].lat = World.plyLat;
+        keyLocations[0].long = World.plyLong;
+        chestLocations[0].lat = World.plyLat;
+        chestLocations[0].long = World.plyLong;
     },
     
     worldLoaded: function worldLoadedFn() {
         World.loaded = true;
-        var e = document.getElementById('loadingMessage');
-        e.parentElement.removeChild(e);
+        //var e = document.getElementById('loadingMessage');
+        //e.parentElement.removeChild(e);
+        
+        AR.hardware.camera.enabled = true;
+        AR.hardware.sensors.enabled = true;
     }
 };
-
-World.init();
-
-function showToast(msg){
-    console.log(msg);
-    'use strict';
-
-    var snackbarContainer = document.querySelector('#toast');
-
-    var data = {message: "WIKITUDEWIKITUDE - " + msg};
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-}
-
-function openInfoCard(title, info) {
-    document.getElementById('infoCard').style.display = "inherit";
-    document.getElementById('infoCardTitle').innerHTML = title;
-    document.getElementById('infoCardInfo').innerHTML = info;
-}
-
-function openProgCard() {
-    document.getElementById('progressCard').style.display = "inherit";
-    document.getElementById('progressCardInfo').innerHTML = "You currently have found the following chests: " + World.chestsFound;
-}
-
-function closeInfoCard() {
-    document.getElementById('infoCard').style.display = "none";
-}
-
-function closeProgCard() {
-    document.getElementById('progressCard').style.display = "none";
-}

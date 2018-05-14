@@ -32,11 +32,14 @@ var World = {
                 onClick: function(){
                     if(keysFound.includes(World.curChestID)){
                         openInfoCard(World.curChestID, "Chest Found!", "Well done! You opened the " + chestLocations[World.curChestID].title + " chest and gained its treasure!");
+                        chestsOpened.push(World.curChestID);
+                        
+                        store.set('chestsOpened', getDataString(chestsOpened));
+                    } else {
+                        openInfoCard(World.curChestID, "Chest Found!", "Well done! You found the " + chestLocations[World.curChestID].title + " chest but you need its key first!");
                         chestsFound.push(World.curChestID);
                         
                         store.set('chestsFound', getDataString(chestsFound));
-                    } else {
-                        openInfoCard(World.curChestID, "Chest Found!", "Well done! You found the " + chestLocations[World.curChestID].title + " chest but you need its key first!");
                     }
                 }
             });

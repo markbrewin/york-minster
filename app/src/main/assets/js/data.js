@@ -3,6 +3,7 @@ var store;
 var chestLocations = [];
 var keyLocations = [];
 var chestsFound = [];
+var chestsOpened = [];
 var keysFound = [];
 
 function loadData(){
@@ -24,6 +25,12 @@ function loadData(){
         chestsFound = getData(store.get('chestsFound'));
     }else{
         store.set('chestsFound', getDataString(chestsFound));
+    }
+    
+    if(store.get('chestsOpened') != null){
+        chestsOpened = getData(store.get('chestsOpened'));
+    }else{
+        store.set('chestsOpened', getDataString(chestsOpened));
     }
     
     if(store.get('keysFound') != null){

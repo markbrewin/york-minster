@@ -26,10 +26,15 @@
     </head>
 
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">Your Treasure</span>                 
+                </div>
+                
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+                    <a href="#chests" class="mdl-layout__tab is-active">Chests</a>
+                    <a href="#keys" class="mdl-layout__tab">Keys</a>
                 </div>
             </header>
 
@@ -45,8 +50,12 @@
             </div>
 
             <main class="mdl-layout__content">
-                <div class="page-content" id="treasure">
-                </div>
+                <section class="mdl-layout__tab-panel is-active" id="chests">
+                    <div class="page-content" id="chestContent"></div>
+                </section>
+                <section class="mdl-layout__tab-panel" id="keys">
+                    <div class="page-content" id="keyContent"></div>
+                </section>
             </main>
         </div>
         
@@ -55,11 +64,15 @@
             loadData();
             
             for(var i = 0; i < chestLocations.length; i++){
-                addTreasureCard(i);
+                addChestCard(i);
             }
             
-            AR.hardware.camera.enabled = false;
-            AR.hardware.sensors.enabled = false;
+            for(var i = 0; i < keysFound.length; i++){
+                addKeyCard(keysFound[i]);
+            }
+            
+            //AR.hardware.camera.enabled = false;
+            //AR.hardware.sensors.enabled = false;
         </script>
     </body>
 </html>

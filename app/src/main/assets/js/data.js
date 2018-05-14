@@ -47,3 +47,11 @@ function getDataString(str){
 function getData(str){
     return JSON.parse(str);
 }
+
+function resetData() {
+    store.remove('chestLocations');
+    store.remove('keyLocations');
+    store.remove('chestsFound');
+    store.remove('chestsOpened');
+    store.remove('keysFound');
+}

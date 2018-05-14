@@ -19,19 +19,22 @@ function closeInfoCard() {
     document.getElementById('infoCard').style.display = "none";
 }
 
-function addTreasureCard(id) {
+function addChestCard(id) {
     var title;
     var info;
     
     if(chestsOpened.includes(id)){
         title = chestLocations[id].title;
         info = chestLocations[id].info;
+    }else if(chestsFound.includes(id) && keysFound.includes(id)){
+        title = chestsLocations[id].title;
+        info = "You've found the key and chest but you need to open it!";
     }else if(chestsFound.includes(id)){
         title = chestLocations[id].title;
         info = "You found the chest, but now you need to find the key!";
     }else{
         title = "???";
-        info = "You've not found this chest yet...";
+        info = "Keep searching, you've not found this chest yet...";
     }
     
     var card = '<div class="mdl-grid" id="' + id + '">';
@@ -49,5 +52,23 @@ function addTreasureCard(id) {
     card += 'View More Information';
     card += '</a></div></div></div></div>';
     
-    document.getElementById('treasure').innerHTML += card;
+    document.getElementById('chestContent').innerHTML += card;
+}
+
+function addKeyCard(id) {
+    var title = keyLocations[id].title;
+    var info = "Opens the " + keyLocations[id].title + " chest.";
+    
+    var card = '<div class="mdl-grid" id="' + id + '">';
+    card += '<div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">';
+    card += '<div class="mdl-card mdl-shadow--2dp">';
+    card += '<div class="mdl-card__title mdl-card--expand">';
+    card += '<h2 class="mdl-card__title-text">';
+    card += title;
+    card += '</h2></div>';
+    card += '<div class="mdl-card__supporting-text">';
+    card += info;
+    card += '</div></div></div></div>';
+    
+    document.getElementById('keyContent').innerHTML += card;
 }

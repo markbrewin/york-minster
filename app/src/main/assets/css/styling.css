@@ -47,8 +47,7 @@ body {
 #progressCard > .mdl-card__title {
     color: #fff;
     height: 170px;
-    background:
-    url('../assets/dog.png') bottom right 15% no-repeat #46B6AC;
+    background: url('../assets/dog.png') bottom right 15% no-repeat #46B6AC;
 }
 
 #progressCard > .mdl-card__actions {
@@ -56,4 +55,9 @@ body {
     height: 50px;
     bottom: 0;
     text-align: right;
+}
+
+#treasure .mdl-card {
+    margin: auto;
+    width: 100%;
 }

@@ -1,11 +1,15 @@
-function treasure(id, lat, long){
+function treasure(id, lat, long, title, info){
     this.id = id;
     this.lat = lat;
     this.long = long;
+    this.title = title;
+    this.info = info;
 }
 
 var World = {
     loaded: false,
+    firstChest: true,
+    firstKey: true,
 
     chestModel: null,
     curChest: null,
@@ -18,7 +22,7 @@ var World = {
     plyLong: null,
         
     init: function initFn() {
-        if(!World.loaded){
+        if(!World.loaded){            
             World.chestModel = new AR.Model("assets/models/chest.wt3", {
                 scale: {
                     x: 0.05,
@@ -27,12 +31,12 @@ var World = {
                 },
                 onClick: function(){
                     if(keysFound.includes(World.curChestID)){
-                        openInfoCard("Chest Found!", "Well done! You opened the chest and gained its treasure!");
+                        openInfoCard(World.curChestID, "Chest Found!", "Well done! You opened the " + chestLocations[World.curChestID].title + " chest and gained its treasure!");
                         chestsFound.push(World.curChestID);
                         
                         store.set('chestsFound', getDataString(chestsFound));
                     } else {
-                        openInfoCard("Chest Found!", "Well done! You found the chest but you need its key first!");
+                        openInfoCard(World.curChestID, "Chest Found!", "Well done! You found the " + chestLocations[World.curChestID].title + " chest but you need its key first!");
                     }
                 }
             });
@@ -44,7 +48,7 @@ var World = {
                     z: 0.1
                 },
                 onClick: function(){
-                    openInfoCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!")
+                    openInfoCard("Key Found!", "Well done! You found a key, can you find the chest it opens?!");
                     keysFound.push(World.curKeyID);
 
                     showToast("Destroyed key.");
@@ -82,14 +86,26 @@ var World = {
         World.worldLoaded();
     },
     
-    addChest: function addChestFn(id, lat, long) {
-        chestLocations.push(new treasure(id, lat, long));
+    addChest: function addChestFn(id, lat, long, title, info) {
+        if(World.firstChest){
+            chestLocations = [];
+            
+            World.firstChest = false;
+        }
+        
+        chestLocations.push(new treasure(id, lat, long, title, info));
         
         store.set('chestLocations', getDataString(chestLocations));
     },
     
-    addKey: function addKeyFn(id, lat, long) {
-        keyLocations.push(new treasure(id, lat, long));
+    addKey: function addKeyFn(id, lat, long, title) {
+        if(World.firstKey){
+            keyLocations = [];
+            
+            World.firstKey = false;
+        }
+        
+        keyLocations.push(new treasure(id, lat, long, title, "n/a"));
         
         store.set('keyLocations', getDataString(keyLocations));
     },
@@ -178,6 +194,8 @@ var World = {
     
     worldLoaded: function worldLoadedFn() {
         World.loaded = true;
+        readData = false;
+        
         //var e = document.getElementById('loadingMessage');
         //e.parentElement.removeChild(e);
         

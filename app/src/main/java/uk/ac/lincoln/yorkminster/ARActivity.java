@@ -152,12 +152,12 @@ public class ARActivity extends AppCompatActivity {
         List<keyEntity> keys = appDb.keyDao().getKeys();
 
         for (chestEntity chest:chests) {
-            this.architectView.callJavascript("World.addChest(" + chest.getCID() + "," + chest.getCLat() + "," + chest.getCLong() + ");");
+            this.architectView.callJavascript("World.addChest(" + chest.getCID() + "," + chest.getCLat() + "," + chest.getCLong() + "," + chest.getCTitle() + "," + chest.getCInfo() + ");");
             Log.i("chests",chest.getCLat() + "\t" + chest.getCLong());
         }
 
         for (keyEntity key:keys) {
-            this.architectView.callJavascript("World.addKey(" + key.getKID() + "," + key.getKLat() + "," + key.getKLong() + ");");
+            this.architectView.callJavascript("World.addKey(" + key.getKID() + "," + key.getKLat() + "," + key.getKLong() + "," + key.getKTitle() + ");");
             Log.i("chests",key.getKLat() + "\t" + key.getKLong());
         }
     }

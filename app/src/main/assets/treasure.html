@@ -9,14 +9,20 @@
 
         <script src="https://www.wikitude.com/libs/architect.js"></script>
         <script src="js/persist-min.js"></script>
-        <script src="js/messages.js"></script>
+        <script src="js/components.js"></script>
         <script src="js/data.js"></script>
+        <script src="js/treasure.js"></script>
 
         <link rel="stylesheet" href="css/material.min.css">
         <script src="js/material.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
         <link rel="stylesheet" href="css/styling.css">
+        <style>
+            body {
+                background: #FAFAFA;
+            }
+        </style>
     </head>
 
     <body>
@@ -38,12 +44,19 @@
                 </nav>
             </div>
 
-            <main class="mdl-layout__content"></main>
+            <main class="mdl-layout__content">
+                <div class="page-content" id="treasure">
+                </div>
+            </main>
         </div>
         
         <script src="js/arWorld.js"></script>
         <script>
             loadData();
+            
+            for(var i = 0; i < chestLocations.length; i++){
+                addTreasureCard();
+            }
             
             AR.hardware.camera.enabled = false;
             AR.hardware.sensors.enabled = false;

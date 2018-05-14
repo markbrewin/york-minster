@@ -9,25 +9,25 @@ function loadData(){
     store = new Persist.Store('YorkCathedral');
     
     if(store.get('chestLocations') != null){
-        chestLocations = getData(store.get('chestLocations'));
-        store.remove('chestLocations'); 
+        chestLocations = getData(store.get('chestLocations'));   
+    }else{
+        store.set('chestLocations', getDataString(chestLocations));
     }
-    store.set('chestLocations', getDataString(chestLocations));
-    
+       
     if(store.get('keyLocations') != null){
-        chestLocations = getData(store.get('keyLocations'));
-        store.remove('keyLocations'); 
-    }
-    store.set('keyLocations', getDataString(keyLocations));
+        keyLocations = getData(store.get('keyLocations'));
+    }else{
+        store.set('keyLocations', getDataString(keyLocations));       
+    }    
     
     if(store.get('chestsFound') != null){
-        chestLocations = getData(store.get('chestsFound'));
+        chestsFound = getData(store.get('chestsFound'));
     }else{
         store.set('chestsFound', getDataString(chestsFound));
     }
     
     if(store.get('keysFound') != null){
-        chestLocations = getData(store.get('keysFound'));
+        keysFound = getData(store.get('keysFound'));
     }else{
         store.set('keysFound', getDataString(keysFound));
     }

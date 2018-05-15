@@ -46,64 +46,69 @@
 
             <main class="mdl-layout__content">
                 <div class="page-content">
-                    <ul class='mdl-list'>
-                        <li class="mdl-list__item mdl-list__item--three-line mdl-js-ripple-effect" onclick="resetSaveData()">
+                    <ul class='mdl-list mdl-list__item--two-line'>
+                        <li class="mdl-list__item mdl-list__item--three-line" onclick="resetSaveData()">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-avatar">delete_forever</i>
                                 <span>Reset Progress</span>
                                 <span class="mdl-list__item-text-body">
-                                    Reset your current progress and start hunting from the beginning. (Warning! This cannot be undone.)
+                                    Reset your current progress and start hunting from the beginning.
                                 </span>
                             </span>
                         </li>
-                        <li class="mdl-list__item mdl-list__item">
-                            <span class="mdl-list__item-primary-content">
-                                <span>Developer Options</span>
-                            </span>
-                        </li>
-                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="resetData()">
-                            <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-avatar">delete</i>
-                                <span>Reset Data</span>
-                                <span class="mdl-list__item-sub-title">
-                                    Clear all chest and treasure data.
+                        <div id="devOptions" style="display: inherit">
+                        <!--<div id="devOptions" style="display: none">-->
+                            <li class="mdl-list__item">
+                                <span class="mdl-list__item-primary-content">
+                                    <span>Developer Options</span>
                                 </span>
-                            </span>
-                        </li>
-                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation()">
-                            <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-avatar">add_location</i>
-                                <span>Create a Chest &amp; Key</span>
-                                <span class="mdl-list__item-sub-title">
-                                    Creates a chest &amp; key at current location.
+                            </li>
+                            <li class="mdl-list__item mdl-list__item--two-line" onclick="resetData()">
+                                <span class="mdl-list__item-primary-content">
+                                    <i class="material-icons mdl-list__item-avatar">delete</i>
+                                    <span>Reset Data</span>
+                                    <span class="mdl-list__item-sub-title">
+                                        Clear all chest and treasure data.
+                                    </span>
                                 </span>
-                            </span>
-                        </li>
-                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation('c')">
-                            <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-avatar">add_location</i>
-                                <span>Create a Chest</span>
-                                <span class="mdl-list__item-sub-title">
-                                    Creates a chest at current location.
+                            </li>
+                            <li class="mdl-list__item mdl-list__item--two-line" onclick="World.setLocation('b')">
+                                <span class="mdl-list__item-primary-content">
+                                    <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                    <span>Create a Chest &amp; Key</span>
+                                    <span class="mdl-list__item-sub-title">
+                                        Creates a chest &amp; key at current location.
+                                    </span>
                                 </span>
-                            </span>
-                        </li>
-                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation('k')">
-                            <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-avatar">add_location</i>
-                                <span>Create a Key</span>
-                                <span class="mdl-list__item-sub-title">
-                                    Creates a key at current location.
+                            </li>
+                            <li class="mdl-list__item mdl-list__item--two-line" onclick="World.setLocation('c')">
+                                <span class="mdl-list__item-primary-content">
+                                    <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                    <span>Create a Chest</span>
+                                    <span class="mdl-list__item-sub-title">
+                                        Creates a chest at current location.
+                                    </span>
                                 </span>
-                            </span>
-                        </li>
+                            </li>
+                            <li class="mdl-list__item mdl-list__item--two-line" onclick="World.setLocation('k')">
+                                <span class="mdl-list__item-primary-content">
+                                    <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                    <span>Create a Key</span>
+                                    <span class="mdl-list__item-sub-title">
+                                        Creates a key at current location.
+                                    </span>
+                                </span>
+                            </li>
+                        </div>
                     </ul>
                 </div>
             </main>
         </div>
         
         <script src="js/arWorld.js"></script>
-        <script>            
+        <script>    
+            loadData();
+            
             //AR.hardware.camera.enabled = false;
             //AR.hardware.sensors.enabled = false;
         </script>

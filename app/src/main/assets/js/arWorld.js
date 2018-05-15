@@ -79,10 +79,11 @@ var World = {
             AR.context.onLocationChanged = function(latitude, longitude, altitude, accuracy){
                 showToast("Location update.");
 
-                World.plyLat = latitude;
-                World.plyLong = longitude;
+                lastLocation[0] = latitude;
+                lastLocation[1] = longitude;
+                store.set('lastLocation', getDataString(lastLocation));
 
-                document.getElementById("loadingMessage").innerHTML = chestLocations[0].lat + "," + chestLocations[0].long + "<br>" + World.plyLat + "," + World.plyLong + "<br>" + distance(World.plyLat, World.plyLong, chestLocations[0].lat, chestLocations[0].long, "K") + "km";
+                document.getElementById("loadingMessage").innerHTML = keyLocations[0].lat + "," + keyLocations[0].long + "<br>" + lastLocation[0] + "," + lastLocation[1] + "<br>" + distance(lastLocation[0], lastLocation[1], keyLocations[0].lat, keyLocations[0].long, "K") + "km";
 
                 World.chestLocationUpdate();
                 World.keyLocationUpdate();
@@ -147,8 +148,7 @@ var World = {
     
     chestLocationUpdate: function chestLocationUpdateFn(){
         for(var i = 0; i < chestLocations.length; i++){
-            //if((Math.abs(World.plyLat - chestLocations[i].lat) <= 0.00005) && (Math.abs(World.plyLong - chestLocations[i].long) <= 0.00005)){
-            if(distance(World.plyLat, World.plyLong, chestLocations[i].lat, chestLocations[i].long, "K") <= 0.015){
+            if(distance(lastLocation[0], lastLocation[1], chestLocations[i].lat, chestLocations[i].long, "K") <= 0.015){
                 if(World.curChest == null){
                     World.loadChest();
                     World.curChestID = i;
@@ -171,8 +171,7 @@ var World = {
     
     keyLocationUpdate: function keyLocationUpdateFn(){
         for(var i = 0; i < keyLocations.length; i++){
-            //if((Math.abs(World.plyLat - keyLocations[i].lat) <= 0.00005) && (Math.abs(World.plyLong - keyLocations[i].long) <= 0.00005) && !keysFound.includes(World.curChestID)){
-            if((distance(World.plyLat, World.plyLong, keyLocations[i].lat, keyLocations[i].long, "K") <= 0.015) && !keysFound.includes(i)){
+            if((distance(lastLocation[0], lastLocation[1], keyLocations[i].lat, keyLocations[i].long, "K") <= 0.015) && !keysFound.includes(i)){
                 if(World.curKey == null){
                     World.loadKey();
                     World.curKeyID = i;
@@ -193,16 +192,14 @@ var World = {
         }
     },
     
-    setLocation: function setLocationFn() {
-        World.addChest(999, World.plyLat, World.plyLong, "Dev Chest", "One muscly boi.");
-        World.addKey(999, World.plyLat, World.plyLong, "Dev Key", "The key to being a muscly boi.");
-    },
-    
     setLocation: function setLocationFn(type) {
         if(type === 'c'){
-            World.addChest(999, World.plyLat, World.plyLong, "Dev Chest", "One muscly boi.");
+            World.addChest(999, lastLocation[0], lastLocation[1], "Dev Chest", "One muscly boi.");
         }else if(type === 'k'){
-            World.addKey(999, World.plyLat, World.plyLong, "Dev Key", "The key to being a muscly boi.");
+            World.addKey(999, lastLocation[0], lastLocation[1], "Dev Key", "The key to being a muscly boi.");
+        }else{
+            World.setLocation('c');
+            World.setLocation('k');
         }
     },
     

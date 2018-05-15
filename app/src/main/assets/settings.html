@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes" name="viewport">
+
+        <title></title>
+
+        <script src="https://www.wikitude.com/libs/architect.js"></script>
+        <script src="js/persist-min.js"></script>
+        <script src="js/components.js"></script>
+        <script src="js/data.js"></script>
+        <script src="js/treasure.js"></script>
+
+        <link rel="stylesheet" href="css/material.min.css">
+        <script src="js/material.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <link rel="stylesheet" href="css/styling.css">
+        <style>
+            body {
+                background: #FAFAFA;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">Settings</span>                 
+                </div>
+            </header>
+
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">York Minster</span>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="index.html">Hunter's Cam</a>
+                    <a class="mdl-navigation__link" href="treasure.html">Treasure</a>
+                    <a class="mdl-navigation__link" href="help.html">Help</a>
+                    <a class="mdl-navigation__link" href="about.html">About</a>
+                    <a class="mdl-navigation__link" href="settings.html">Settings</a>
+                </nav>
+            </div>
+
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <ul class='mdl-list'>
+                        <li class="mdl-list__item mdl-list__item--three-line mdl-js-ripple-effect" onclick="resetSaveData()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">delete_forever</i>
+                                <span>Reset Progress</span>
+                                <span class="mdl-list__item-text-body">
+                                    Reset your current progress and start hunting from the beginning. (Warning! This cannot be undone.)
+                                </span>
+                            </span>
+                        </li>
+                        <li class="mdl-list__item mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+                                <span>Developer Options</span>
+                            </span>
+                        </li>
+                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="resetData()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">delete</i>
+                                <span>Reset Data</span>
+                                <span class="mdl-list__item-sub-title">
+                                    Clear all chest and treasure data.
+                                </span>
+                            </span>
+                        </li>
+                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                <span>Create a Chest &amp; Key</span>
+                                <span class="mdl-list__item-sub-title">
+                                    Creates a chest &amp; key at current location.
+                                </span>
+                            </span>
+                        </li>
+                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation('c')">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                <span>Create a Chest</span>
+                                <span class="mdl-list__item-sub-title">
+                                    Creates a chest at current location.
+                                </span>
+                            </span>
+                        </li>
+                        <li class="mdl-list__item mdl-list__item--two-line mdl-js-ripple-effect" onclick="World.setLocation('k')">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">add_location</i>
+                                <span>Create a Key</span>
+                                <span class="mdl-list__item-sub-title">
+                                    Creates a key at current location.
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+        
+        <script src="js/arWorld.js"></script>
+        <script>            
+            //AR.hardware.camera.enabled = false;
+            //AR.hardware.sensors.enabled = false;
+        </script>
+    </body>
+</html>

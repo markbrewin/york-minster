@@ -194,10 +194,16 @@ var World = {
     },
     
     setLocation: function setLocationFn() {
-        keyLocations[0].lat = World.plyLat;
-        keyLocations[0].long = World.plyLong;
-        chestLocations[0].lat = World.plyLat;
-        chestLocations[0].long = World.plyLong;
+        World.addChest(999, World.plyLat, World.plyLong, "Dev Chest", "One muscly boi.");
+        World.addKey(999, World.plyLat, World.plyLong, "Dev Key", "The key to being a muscly boi.");
+    },
+    
+    setLocation: function setLocationFn(type) {
+        if(type === 'c'){
+            World.addChest(999, World.plyLat, World.plyLong, "Dev Chest", "One muscly boi.");
+        }else if(type === 'k'){
+            World.addKey(999, World.plyLat, World.plyLong, "Dev Key", "The key to being a muscly boi.");
+        }
     },
     
     worldLoaded: function worldLoadedFn() {

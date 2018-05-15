@@ -55,3 +55,9 @@ function resetData() {
     store.remove('chestsOpened');
     store.remove('keysFound');
 }
+
+function resetSaveData() {
+    store.remove('chestsFound');
+    store.remove('chestsOpened');
+    store.remove('keysFound');
+}

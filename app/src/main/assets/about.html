@@ -26,15 +26,10 @@
     </head>
 
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title">Your Treasure</span>                 
-                </div>
-                
-                <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-                    <a href="#chests" class="mdl-layout__tab is-active">Chests</a>
-                    <a href="#keys" class="mdl-layout__tab">Keys</a>
+                    <span class="mdl-layout-title">About</span>                 
                 </div>
             </header>
 
@@ -50,27 +45,12 @@
             </div>
 
             <main class="mdl-layout__content">
-                <section class="mdl-layout__tab-panel is-active" id="chests">
-                    <div class="page-content" id="chestContent"></div>
-                </section>
-                <section class="mdl-layout__tab-panel" id="keys">
-                    <div class="page-content" id="keyContent"></div>
-                </section>
+                <div class="page-content">About the app and york minster</div>
             </main>
         </div>
         
         <script src="js/arWorld.js"></script>
-        <script>
-            loadData();
-            
-            for(var i = 0; i < chestLocations.length; i++){
-                addChestCard(i);
-            }
-            
-            for(var i = 0; i < keysFound.length; i++){
-                addKeyCard(keysFound[i]);
-            }
-            
+        <script>            
             //AR.hardware.camera.enabled = false;
             //AR.hardware.sensors.enabled = false;
         </script>

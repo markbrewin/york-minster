@@ -17,7 +17,6 @@ import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -27,12 +26,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
 import android.webkit.WebView;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -152,12 +146,12 @@ public class ARActivity extends AppCompatActivity {
         List<keyEntity> keys = appDb.keyDao().getKeys();
 
         for (chestEntity chest:chests) {
-            this.architectView.callJavascript("World.addChest(" + chest.getCID() + "," + chest.getCLat() + "," + chest.getCLong() + ");");
+            this.architectView.callJavascript("World.addChest(" + chest.getCID() + "," + chest.getCLat() + "," + chest.getCLong() + ",'" + chest.getCTitle() + "','" + chest.getCInfo() + "');");
             Log.i("chests",chest.getCLat() + "\t" + chest.getCLong());
         }
 
         for (keyEntity key:keys) {
-            this.architectView.callJavascript("World.addKey(" + key.getKID() + "," + key.getKLat() + "," + key.getKLong() + ");");
+            this.architectView.callJavascript("World.addKey(" + key.getKID() + "," + key.getKLat() + "," + key.getKLong() + ",'" + key.getKTitle() + "');");
             Log.i("chests",key.getKLat() + "\t" + key.getKLong());
         }
     }

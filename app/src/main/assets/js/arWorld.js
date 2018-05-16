@@ -193,6 +193,9 @@ var World = {
     },
     
     setLocation: function setLocationFn(type) {
+        World.firstChest = false;
+        World.firstKey = false;
+        
         if(type === 'c'){
             World.addChest(999, lastLocation[0], lastLocation[1], "Dev Chest", "One muscly boi.");
         }else if(type === 'k'){

@@ -3,8 +3,6 @@ package uk.ac.lincoln.yorkminster;
 
 import android.Manifest;
 
-import com.wikitude.architect.ArchitectStartupConfiguration;
-
 public class permissionUtil {
     private permissionUtil(){}
 

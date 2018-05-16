@@ -2,12 +2,9 @@ package uk.ac.lincoln.yorkminster;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-
-import java.util.UUID;
 
 @Entity(tableName = "chests")
 public class chestEntity {

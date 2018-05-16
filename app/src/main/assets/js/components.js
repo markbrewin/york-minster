@@ -72,3 +72,12 @@ function addKeyCard(id) {
     
     document.getElementById('keyContent').innerHTML += card;
 }
+
+var devCount = 3;
+function enableDev(){
+    if(devCount <= 0){
+        document.getElementById('devOptions').style.display = "inherit";
+    }else{
+        devCount--;
+    }
+}

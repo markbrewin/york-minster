@@ -47,7 +47,7 @@
             <main class="mdl-layout__content">
                 <div class="page-content">
                     <ul class='mdl-list mdl-list__item--two-line'>
-                        <li class="mdl-list__item mdl-list__item--three-line" onclick="resetSaveData()">
+                        <li class="mdl-list__item mdl-list__item--three-line" id="resetSave">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-avatar">delete_forever</i>
                                 <span>Reset Progress</span>
@@ -100,6 +100,22 @@
                             </li>
                         </div>
                     </ul>
+                    
+                    <dialog class="mdl-dialog">
+                        <h4 class="mdl-dialog__title">Delete Progress?</h4>
+                        <div class="mdl-dialog__content">
+                            <p>
+                                Are you sure you want to delete your progress?
+                            </p>
+                            <p>
+                                Be warned, this action cannot be undone.
+                            </p>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                            <button type="button" class="mdl-button yes">Yes</button>
+                            <button type="button" class="mdl-button no">No</button>
+                        </div>
+                    </dialog>
                 </div>
             </main>
         </div>
@@ -107,6 +123,23 @@
         <script src="js/arWorld.js"></script>
         <script>    
             loadData();
+            
+            var dialog = document.querySelector('dialog');
+            var showDialogButton = document.querySelector('#resetSave');
+            if (! dialog.showModal) {
+                dialogPolyfill.registerDialog(dialog);
+            }
+            
+            showDialogButton.addEventListener('click', function() {
+                dialog.showModal();
+            });
+            dialog.querySelector('.yes').addEventListener('click', function() {
+                resetSaveData();
+                dialog.close();
+            });
+            dialog.querySelector('.no').addEventListener('click', function() {
+                dialog.close();
+            });
             
             //AR.hardware.camera.enabled = false;
             //AR.hardware.sensors.enabled = false;

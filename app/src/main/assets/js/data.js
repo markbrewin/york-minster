@@ -6,6 +6,7 @@ var chestsFound = [];
 var chestsOpened = [];
 var keysFound = [];
 var lastLocation = [];
+var dev = false;
 
 function loadData(){
     store = new Persist.Store('YorkCathedral');
@@ -45,6 +46,12 @@ function loadData(){
     }else{
         store.set('lastLocation', getDataString(lastLocation));
     }
+    
+    if(store.get('dev') != null){
+        dev = getData(store.get('dev'));
+    }else{
+        store.set('dev', getDataString(dev));
+    }
 }
 
 function getDataString(str){
@@ -62,6 +69,7 @@ function resetData() {
     store.remove('chestsOpened');
     store.remove('keysFound');
     store.remove('lastLocation');
+    store.remove('dev');
 }
 
 function resetSaveData() {

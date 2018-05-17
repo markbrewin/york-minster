@@ -46,11 +46,11 @@ function addChestCard(id) {
     card += '</h2></div>';
     card += '<div class="mdl-card__supporting-text">';
     card += info;
-    card += '</div>';
-    card += '<div class="mdl-card__actions mdl-card--border">';
-    card += '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">';
-    card += 'View More Information';
-    card += '</a></div></div></div></div>';
+    card += '</div></div></div></div>';
+    //card += '<div class="mdl-card__actions mdl-card--border">';
+    //card += '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">';
+    //card += 'View More Information';
+    //card += '</a></div></div></div></div>';
     
     document.getElementById('chestContent').innerHTML += card;
 }
@@ -75,8 +75,17 @@ function addKeyCard(id) {
 
 var devCount = 3;
 function enableDev(){
-    if(devCount <= 0){
-        document.getElementById('devOptions').style.display = "inherit";
+    if(devCount <= 0 || dev){
+        if(!dev){
+            dev = true
+            document.getElementById('devOptions').style.display = "inherit";
+        }else{
+            dev = false;
+            document.getElementById('devOptions').style.display = "none";
+        }
+        
+        devCount = 3;
+        store.set('dev', getDataString(dev));
     }else{
         devCount--;
     }

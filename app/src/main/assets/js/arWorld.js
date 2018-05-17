@@ -12,9 +12,11 @@ var World = {
     firstKey: true,
 
     chestModel: null,
+    chestAnim: null,
     curChest: null,
     curChestID: null,
     keyModel: null,
+    keyAnim: null,
     curKey: null,
     curKeyID: null,
     
@@ -22,8 +24,8 @@ var World = {
     plyLong: null,
         
     init: function initFn() {
-        if(!World.loaded){            
-            World.chestModel = new AR.Model("assets/models/chest.wt3", {
+        if(!World.loaded){
+            World.chestModel = new AR.Model("assets/models/chest-1.wt3", {
                 scale: {
                     x: 0.05,
                     y: 0.05,
@@ -47,8 +49,9 @@ var World = {
                     }
                 }
             });
+            //World.chestAnim = new AR.PropertyAnimation(World.chestModel, "rotate.heading", );
 
-            World.keyModel = new AR.Model("assets/models/padlock.wt3", {
+            World.keyModel = new AR.Model("assets/models/key-1.wt3", {
                 scale: {
                     x: 0.1,
                     y: 0.1,
@@ -197,21 +200,30 @@ var World = {
         World.firstKey = false;
         
         if(type === 'c'){
-            World.addChest(999, lastLocation[0], lastLocation[1], "Dev Chest", "One muscly boi.");
+            chestLocations[0].lat = lastLocation[0];
+            chestLocations[0].long = lastLocation[1];
+            //World.addChest(999, lastLocation[0], lastLocation[1], "Dev Chest", "Testing chest.");
         }else if(type === 'k'){
-            World.addKey(999, lastLocation[0], lastLocation[1], "Dev Key", "The key to being a muscly boi.");
+            keyLocations[0].lat = lastLocation[0];
+            keyLocations[0].long = lastLocation[1];
+            //World.addKey(999, lastLocation[0], lastLocation[1], "Dev Key", "The key to being a muscly boi.");
         }else{
             World.setLocation('c');
             World.setLocation('k');
         }
+        
+        store.set('chestsFound', getDataString(chestsFound));
+        store.set('keysFound', getDataString(keysFound));
     },
     
     worldLoaded: function worldLoadedFn() {
         World.loaded = true;
         readData = false;
         
-        //var e = document.getElementById('loadingMessage');
-        //e.parentElement.removeChild(e);
+        if(!dev){
+            var e = document.getElementById('loadingMessage');
+            e.parentElement.removeChild(e);
+        }
         
         //AR.hardware.camera.enabled = true;
         //AR.hardware.sensors.enabled = true;
